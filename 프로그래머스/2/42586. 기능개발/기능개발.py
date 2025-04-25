@@ -2,8 +2,7 @@ def solution(progresses, speeds):
     from collections import deque
     queue = deque(progresses)
     answer = []
-    day = 0
-
+    
     while queue:
         for i in range(len(queue)):
             queue[i] += speeds[i]
