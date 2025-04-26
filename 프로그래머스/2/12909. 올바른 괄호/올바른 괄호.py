@@ -1,10 +1,10 @@
 def solution(s):
     stack = []
+    pair = { "(" : ")"}
+
     for i in s:
-        if i == "(":
+        if i in pair:
             stack.append(i)
-        elif i == ")": 
-            if not stack or stack[-1] != "(":
-                return False
-            stack.pop()
-    return not stack
+        elif len(stack) == 0 or i != pair[stack.pop()]:
+            return False
+    return len(stack) == 0
