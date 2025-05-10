@@ -1,28 +1,22 @@
-def possible(mid, distance, rocks, n):
-    removed = 0
-    prev = 0
-    for r in rocks:
-        if (r - prev) < mid:
-            removed += 1
-        else:
-            prev = r
+def solution(distance, rocks, n):
+    answer = 0
+    sorted_rocks = sorted(rocks)
+    sorted_rocks.append(distance)
 
-    if (distance - prev) < mid:
-        removed += 1
-
-    return removed <= n
-    
-def solution(distance, rocks, n):        
-    rocks.sort()
     start = 0
     end = distance
-    
-    while start <= end:
+    while (start <= end):
         mid = (start + end) // 2
-        if possible(mid, distance, rocks, n):
-            answer = mid
-            start = mid + 1
-        else:
+        removed = 0
+        prev = 0
+        for i in range(len(sorted_rocks)):
+            if (sorted_rocks[i] - prev < mid):
+                removed += 1
+            else:
+                prev = sorted_rocks[i]
+        if removed > n:
             end = mid - 1
-    
+        else:
+            start = mid + 1
+            answer = mid
     return answer
