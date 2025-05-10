@@ -1,17 +1,17 @@
 def solution(m, n, puddles):
-    pd = [[0] * m for _ in range(n)]
-    pd[0][0] = 1  # 시작점
-    
-    for i, j in puddles:
-        pd[j-1][i-1] = -1  # 물웅덩이
+    dp = [0] * m
+    dp[0] = 1  # 시작점
+
+    puddles_set = set((x-1, y-1) for x, y in puddles)
     
     for y in range(n):
         for x in range(m):
-            if pd[y][x] == -1:  # 물웅덩이 제외
+            if (x, y) in puddles_set:
+                dp[x] = 0
                 continue
-            if y > 0 and pd[y-1][x] > 0 :  # 아래로 이동하는 경로
-                pd[y][x] = (pd[y][x] + pd[y-1][x]) % 1000000007
-            if x > 0 and pd[y][x-1] > 0:  # 오른쪽으로 이동하는 경로
-                pd[y][x] = (pd[y][x] + pd[y][x-1]) % 1000000007
+            if x > 0:
+                dp[x] = (dp[x] + dp[x-1]) % 1000000007
+        if y != 0:
+            dp[0] = dp[0]
     
-    return pd[n-1][m-1] if pd[n-1][m-1] != -1 else 0
+    return dp[m-1]
